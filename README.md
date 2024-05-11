@@ -11,5 +11,7 @@ Node v20.13.1
 
 Use o comando 'npm install' para instalar as depedencias do projeto
 
-Para executar o projeto, utilize 'npm start'
+Utilize o .env.template para criar um novo arquivo .env com as informações do necessarias.
+
+Para executar o projeto, utilize 'npm start .env'
 
