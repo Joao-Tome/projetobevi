@@ -1,7 +1,7 @@
-import logo from './logo.svg';
-import './App.css';
 import {instanceAxios, AddApiKey} from './services/axios.js'
 import Swal from 'sweetalert2';
+import Button from 'react-bootstrap/Button';
+import NavBar from './components/NavBar.js';
 
 async function TestarAPI(){
   instanceAxios.post('/auth/me')
@@ -37,22 +37,16 @@ async function LogarAPI(){
 
 function Home() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Home
-        </p>
-      </header>
-      <body>
-        <button type='button' onClick={() => LogarAPI()}>
+    <>
+      <NavBar/>
+      <Button variant="primary">Primary</Button>{' '}
+        <Button variant='primary' type='button' onClick={() => LogarAPI()}>
           Logar
-        </button>
-        <button type='button' onClick={() => TestarAPI()}>
+        </Button>
+        <Button variant='primary' type='button' onClick={() => TestarAPI()}>
           Testar API com o metodo ME
-        </button>
-      </body>
-    </div>
+        </Button>
+    </>
   );
 }
 
