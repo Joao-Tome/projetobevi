@@ -38,7 +38,7 @@ async function LogarAPI(){
 function Home() {
   return (
     <>
-      <NavBar/>
+      {/* <NavBar/> */}
       <Button variant="primary">Primary</Button>{' '}
         <Button variant='primary' type='button' onClick={() => LogarAPI()}>
           Logar

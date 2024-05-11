@@ -1,5 +1,6 @@
 import { Navbar, Nav, Container } from "react-bootstrap"
 import "../stylesheet/NavBar.css"
+import { Outlet } from "react-router-dom"
 
 function NavBar(){
     return (
