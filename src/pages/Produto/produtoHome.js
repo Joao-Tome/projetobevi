@@ -1,6 +1,4 @@
-// import './App.css';
-
-import NavBar from "../../components/NavBar";
+import "../../stylesheet/ProdutoHome.css"
 
 function ProdutoHome() {
     return (
@@ -8,7 +6,7 @@ function ProdutoHome() {
       <div className="App">
         <header className="App-header">
           <h2>
-            Home Produto
+            Listagem de Produto
           </h2>
         </header>
         <body>

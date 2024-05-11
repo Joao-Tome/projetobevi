@@ -1,5 +1,6 @@
+@use 'app';
 $base_color_navbar: #19125c;
-$base_color_text: #FFF;
+$base_color_text_nav_hover: #BBB;
 
 .navbar-color {
     background-color: $base_color_navbar;
@@ -7,20 +8,27 @@ $base_color_text: #FFF;
 
 nav{
     
-
     .navbar .container{
         justify-content: center;
     }
 
     .navbar-brand{
-        color:  $base_color_text;
+        color:  app.$base_color_text;
     }
+    
     .nav-link{
-        color: $base_color_text;
-        // justify-content: center;
+        color: app.$base_color_text;
+        
+        &:hover{
+            color: $base_color_text_nav_hover ;
+        }
+
+        &:focus{
+            color: app.$base_color_text; //Retirar a cor de seleção padrão de Preto.
+        }
     }
     .navbar-toggler{
-        background-color: $base_color_text;
+        background-color: app.$base_color_text;
     }
 
     .navbar-collapse{

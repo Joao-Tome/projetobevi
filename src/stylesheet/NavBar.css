@@ -11,6 +11,12 @@ nav .navbar-brand {
 nav .nav-link {
   color: #FFF;
 }
+nav .nav-link:hover {
+  color: #BBB;
+}
+nav .nav-link:focus {
+  color: #FFF;
+}
 nav .navbar-toggler {
   background-color: #FFF;
 }
