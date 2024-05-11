@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './Home'
 import ProdutoHome from './pages/Produto/produtoHome';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import ErrorPage from './ErrorPage';
+import ErrorPage from './pages/ErrorPage';
 import NavBar from './components/NavBar';
 import { Nav } from 'react-bootstrap';
 import PaginaBase from './pages/PaginaBase';

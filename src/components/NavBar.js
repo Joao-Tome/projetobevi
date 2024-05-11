@@ -1,24 +1,29 @@
 import { Navbar, Nav, Container } from "react-bootstrap"
 import "../stylesheet/NavBar.css"
-import { Outlet } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 function NavBar(){
     return (
     <>
-        <Navbar expand="sm" className="navbar-color">
+        <Navbar className="navbar-color">
             <Container>
-            <Navbar.Brand href="#home">Projeto Teste Bevi</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
+                <Navbar.Brand >
+                    <Link to={`/`} className="nav-link">
+                        Projeto Teste Bevi
+                    </Link>
+                </Navbar.Brand>
                     <Nav className="me-auto" navbarScroll>
                         <Nav.Link>
-                            Home
+                            <Link to={`/`} className="nav-link">
+                                Home
+                            </Link> 
                         </Nav.Link>
                         <Nav.Link>
-                            Produto
+                            <Link to={`/Produto`} className="nav-link">
+                                Produto
+                            </Link>
                         </Nav.Link>
                     </Nav>
-                </Navbar.Collapse>
             </Container>
         </Navbar>
     </>
