@@ -1,0 +1,21 @@
+.navbar-color {
+  background-color: #19125c;
+}
+
+nav .navbar .container {
+  justify-content: center;
+}
+nav .navbar-brand {
+  color: #FFF;
+}
+nav .nav-link {
+  color: #FFF;
+}
+nav .navbar-toggler {
+  background-color: #FFF;
+}
+nav .navbar-collapse .nav-link {
+  text-align: center;
+}
+
+/*# sourceMappingURL=NavBar.css.map */

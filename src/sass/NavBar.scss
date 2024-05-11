@@ -1,0 +1,33 @@
+$base_color_navbar: #19125c;
+$base_color_text: #FFF;
+
+.navbar-color {
+    background-color: $base_color_navbar;
+}
+
+nav{
+
+    .navbar .container{
+        justify-content: center;
+    }
+
+    .navbar-brand{
+        color:  $base_color_text;
+    }
+    .nav-link{
+        color: $base_color_text;
+        // justify-content: center;
+    }
+    .navbar-toggler{
+        background-color: $base_color_text;
+    }
+
+    .navbar-collapse{
+        .nav-link{
+            text-align: center;
+        }
+    }
+
+}
+
+
