@@ -13,16 +13,12 @@ function NavBar(){
                     </Link>
                 </Navbar.Brand>
                     <Nav className="me-auto" navbarScroll>
-                        <Nav.Link>
-                            <Link to={`/`} className="nav-link">
-                                Home
-                            </Link> 
-                        </Nav.Link>
-                        <Nav.Link>
-                            <Link to={`/Produto`} className="nav-link">
-                                Produto
-                            </Link>
-                        </Nav.Link>
+                        <Link to={`/`} className="nav-link">
+                            Home
+                        </Link> 
+                        <Link to={`/Produto`} className="nav-link">
+                            Produto
+                        </Link>
                     </Nav>
             </Container>
         </Navbar>

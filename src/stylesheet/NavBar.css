@@ -1,3 +1,8 @@
+.titulo {
+  text-align: center;
+  padding: 1vh;
+}
+
 .navbar-color {
   background-color: #19125c;
 }
