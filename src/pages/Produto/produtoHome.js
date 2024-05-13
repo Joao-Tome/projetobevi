@@ -1,5 +1,5 @@
 import "../../stylesheet/ProdutoHome.css"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
@@ -12,12 +12,63 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { CiSquarePlus } from "react-icons/ci";
 import { IoRefresh } from "react-icons/io5";
 import ProdutoCreate from "./produtoCreate";
+import ProdutoCard from "../../components/ProdutoCard";
+
+import instanceAxios from "../../services/axios";
+import Swal from "sweetalert2";
 
 function ProdutoHome() {
 
   const [showModal, setShowModal] = useState(false);
   
-  const closeModal = () => setShowModal(false);
+  const [listProdutos, setListProdutos] = useState([
+    {
+      id: 0,
+      name: "Produto Teste React",
+      description: "Produto Teste React",
+      price: 10,
+      status: 2,
+      stock_quantity: 1,
+      created_at: "2024-05-12",
+      updated_at: "",
+      deleted_at: null
+    }
+  ])
+
+  const CarregaListaProdutos = () => {
+    
+    if (instanceAxios.defaults.headers.common['Authorization'] === undefined ){
+      Swal.fire({
+        title: "Erro ao Criar o Produto!",
+        text: "Usuario não esta Logado!",
+        icon:"Danger"
+      })
+      return 
+    }
+
+    instanceAxios({
+      method: "post",
+      url: "/product/list"
+    })
+    .then( (resp) => {
+      console.log(resp)
+      setListProdutos(resp.data.data)
+    })
+    .catch( (error) => {
+      Swal.fire({
+        title: "Ocorreu um erro!",
+        text: "Ocorreu um erro ao Enviar Listar os Produtos!",
+        icon: "danger"
+      })
+      console.log(error)
+    })
+  }
+
+  useEffect( () => {
+    CarregaListaProdutos()
+  },[])
+
+  const closeModal = () => { setShowModal(false); CarregaListaProdutos() };
   const openModal = () => setShowModal(true);
 
     return (
@@ -48,7 +99,7 @@ function ProdutoHome() {
                 </Tooltip>
               }>
 
-            <Button variant="secondary" className="btnoperacoes">
+            <Button variant="secondary" className="btnoperacoes" onClick={ () => CarregaListaProdutos()}>
               <IoRefresh size={35}/>
             </Button>
 
@@ -69,6 +120,16 @@ function ProdutoHome() {
 
             </OverlayTrigger>
           </Col>
+        </Row>
+
+        <Row className="mt-4">
+          {listProdutos.map( (item) => {
+            return (
+              <Col sm={6} md={4} lg={3} xl={2} className="p-2">
+                <ProdutoCard Produto={item}/>
+              </Col>
+            )
+          })}
         </Row>
 
       </Container>

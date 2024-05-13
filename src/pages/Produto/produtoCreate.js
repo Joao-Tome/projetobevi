@@ -1,12 +1,10 @@
 // import './App.css';
-import { useState } from 'react';
-
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Button } from 'react-bootstrap';
-import { Formik, swap } from 'formik';
+import { Formik } from 'formik';
 import * as yup from 'yup';
 import instanceAxios from "../../services/axios";
 import Swal from 'sweetalert2';
@@ -42,7 +40,7 @@ function ProdutoCreate({closeModal}) {
   })
   
   const EnviaAPI = (obj) => {
-    if (instanceAxios.defaults.headers.common['Authorization'] == undefined ){
+    if (instanceAxios.defaults.headers.common['Authorization'] === undefined ){
       Swal.fire({
         title: "Erro ao Criar o Produto!",
         text: "Usuario não esta Logado!",
