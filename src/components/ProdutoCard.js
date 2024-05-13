@@ -9,6 +9,16 @@ function ProdutoCard({ Produto }) {
         { name: "Em Falta", value: 3 },
     ]
 
+    //Objeto de Produto Enviado via API
+    // id : 122
+    // name : "Produto Teste 2"
+    // description: "Produto Teste 2"
+    // price : 5 
+    // status : 1 
+    // stock_quantity : 5 
+    // created_at : "2024-05-12T15:31:01.000000Z"
+    // updated_at : "2024-05-12T15:31:01.000000Z" 
+    // deleted_at : null
     return (
         <>
             <Card border="primary">
@@ -26,6 +36,11 @@ function ProdutoCard({ Produto }) {
                         Status: {listastatus.find( (element) => element.value === Produto.status).name}
                         <br/>
                         Estoque: {Produto.stock_quantity}
+                    </Card.Text>
+                    <Card.Text className="text-muted">
+                       Criado em: {new Date(Produto.created_at).toLocaleDateString()}
+                       <br/>
+                       Ultima Alteração em: {new Date(Produto.updated_at).toLocaleDateString()}
                     </Card.Text>
                 </Card.Body>
 
