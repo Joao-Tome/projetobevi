@@ -8,9 +8,10 @@ import { Formik } from 'formik';
 import * as yup from 'yup';
 import instanceAxios from "../../services/axios";
 import Swal from 'sweetalert2';
+import { useEffect, useState } from 'react';
 
 //Modal de Criar o Produto
-function ProdutoCreate({closeModal}) {
+function ProdutoDetalhes({closeModal, idProduto}) {
 
   //Lista de status
   //Normalmente retorna da API, mas como a API não retorna essa informação, irei deixar aqui mesmo.
@@ -20,15 +21,47 @@ function ProdutoCreate({closeModal}) {
     {name: "Em Falta", value: 3},
   ]
 
-  // Formato de envio ao API
+  //Objeto do Produto a ser Carregado no Schema
+  const [produto, setProduto] = useState({
+    name: "",
+    description: "",
+    price: 0,
+    status: 0,
+    stock_quantity: 0
+  });
 
-  // {
-  //   "name": "Produto 1",
-  //   "description": "Descrição Produto 1",
-  //   "price": 50.5,
-  //   "status": 1,
-  //   "stock_quantity": 10
-  // }
+  // Formato de envio ao API
+  useEffect(() => {
+    console.log(idProduto)
+    if (idProduto !== 0) {
+      //Chamada API para pegar o produto.
+      instanceAxios({
+        method: "get",
+        url: "product/read",
+        params: {id: idProduto}
+      })
+      .then( (resp) => {
+        const produtoParaAlterar = resp.data.data
+        //Transcrever o produto para o objeto Produto
+        setProduto({
+          name: produtoParaAlterar.name,
+          description: produtoParaAlterar.description,
+          price: produtoParaAlterar.price,
+          status: produtoParaAlterar.status,
+          stock_quantity: produtoParaAlterar.stock_quantity
+        })
+      })
+      .catch( (error) => {
+        Swal.fire({
+          title: "Ocorreu um erro!",
+          text: "Ocorreu um erro ao Enviar carregar o Produto!",
+          icon: "error"
+        })
+        console.log(error)
+      })
+    }
+
+  }, [idProduto], produto);
 
   //Schema de Validação pelo yup
   const validationSchema = yup.object().shape({
@@ -39,16 +72,86 @@ function ProdutoCreate({closeModal}) {
     stock_quantity: yup.number().required()
   })
   
-  const EnviaAPI = (obj) => {
-    if (instanceAxios.defaults.headers.common['Authorization'] === undefined ){
-      Swal.fire({
-        title: "Erro ao Criar o Produto!",
-        text: "Usuario não esta Logado!",
-        icon:"Danger"
-      })
-      return 
-    }
+  const DeletarProdutoAPI = () =>{
 
+    instanceAxios({
+      method: "delete",
+      url: "/product/delete",
+      data: { id: idProduto}
+    })
+    .then( (resp) => {
+      Swal.fire({
+        title:"Produto Deletado com Sucesso!",
+        timer: 2000,
+        icon: "success"
+      }).then( () => {
+        closeModal()
+      })
+    })
+    .catch( (error) => {
+      Swal.fire({
+        title: "Ocorreu um erro!",
+        text: "Ocorreu um erro ao Enviar Deletado o Produto!",
+        icon: "error"
+      })
+      console.log(error)
+    })
+  }
+  
+  const DeletarProdutoConfimacao = () => {
+   Swal.fire({
+    title: "Deletar Produto",
+    text: "Tem certeza que deseja deletar o produto?",
+    showDenyButton: true,
+    confirmButtonText: "Sim",
+    denyButtonText: "Não"
+   })
+   .then( (resp) => {
+    if (resp.isConfirmed){
+      DeletarProdutoAPI()
+    } 
+   }) 
+  }
+
+
+
+  const UpdateProdutoAPI = (obj) => {
+    
+    if (obj === null) return; 
+
+    //Crio um novo objeto com o conteudo de obj (ele foi desconstruido) mais o id do produto.
+    const objUpdate = {...obj, id: idProduto};
+
+    instanceAxios({
+      method: "put",
+      url: "/product/update",
+      data: objUpdate
+    })
+    .then( (resp) => {
+      Swal.fire({
+        title: "Produto Alterado com Sucesso!",
+        text: "Produto " + obj.name + " Alterado com Sucesso!",
+        timer: 2000,
+        icon: "success"
+      }).then( () => {
+        closeModal()
+      })
+    })
+    .catch( (error) => {
+      Swal.fire({
+        title: "Ocorreu um erro!",
+        text: "Ocorreu um erro ao Enviar Alterar o Produto!",
+        icon: "error"
+      })
+      console.log(error)
+    })
+  }
+
+
+  
+  const CriarProdutoAPI = (obj) => {
+    if (obj === null) return   
+    
     instanceAxios({
       method: "post",
       url: "/product/create",
@@ -68,10 +171,26 @@ function ProdutoCreate({closeModal}) {
       Swal.fire({
         title: "Ocorreu um erro!",
         text: "Ocorreu um erro ao Enviar criar o Produto!",
-        icon: "danger"
+        icon: "error"
       })
       console.log(error)
     })
+  }
+
+  const EnviaAPI = (obj) => {
+    if (instanceAxios.defaults.headers.common['Authorization'] === undefined ){
+      Swal.fire({
+        title: "Erro ao Criar o Produto!",
+        text: "Usuario não esta Logado!",
+        icon:"error"
+      })
+      return 
+    }
+    if (idProduto !== 0) {
+      UpdateProdutoAPI(obj)
+    } else {
+      CriarProdutoAPI(obj)
+    }
   }
 
   const handleCancelar = () => {
@@ -83,15 +202,14 @@ function ProdutoCreate({closeModal}) {
       <Formik 
         validationSchema={validationSchema}
         onSubmit={ (values) => EnviaAPI(values)}
-        initialValues={
-          {
-            name: "",
-            description: "",
-            price: 0,
-            status: 0,
-            stock_quantity: 0
-          }
-        }
+        initialValues={ {
+          name: produto.name,
+          description: produto.description,
+          price: produto.price,
+          status: produto.status,
+          stock_quantity: produto.stock_quantity
+        }}
+        enableReinitialize
       >
         {({handleSubmit, handleChange, values, touched, errors}) => (
 
@@ -190,14 +308,22 @@ function ProdutoCreate({closeModal}) {
             </Col>
           </Row>
           <Row>
-          <Col className='mt-2 text-start'>
-              <Button variant='danger' type='button' onClick={() => handleCancelar()}>
+              { 
+                idProduto !== 0 ? (
+                  <Col className='mt-2 text-start'>
+                    <Button variant='danger' type='button' onClick={() => DeletarProdutoConfimacao()}>
+                      Deletar
+                    </Button>
+                  </Col>) : <></>
+              } 
+          <Col className={'mt-2 ' + (idProduto !== 0 ? 'text-center' : 'text-start' )}>
+              <Button variant='secondary' type='button' onClick={() => handleCancelar()}>
                 Cancelar
               </Button>
             </Col>
             <Col className='mt-2 text-end'>
               <Button variant='primary' type='submit'>
-                Criar Produto
+                  {idProduto !== 0 ? "Alterar" : "Criar"}
               </Button>
             </Col>
           </Row>
@@ -208,4 +334,4 @@ function ProdutoCreate({closeModal}) {
   );
 }
 
-export default ProdutoCreate;
+export default ProdutoDetalhes;

@@ -2,4 +2,13 @@
   margin-inline: 0.3vh;
 }
 
+.button-card {
+  text-decoration: none;
+  border: none;
+  background-color: inherit;
+}
+.button-card :hover {
+  cursor: pointer;
+}
+
 /*# sourceMappingURL=ProdutoHome.css.map */

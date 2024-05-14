@@ -11,7 +11,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 
 import { CiSquarePlus } from "react-icons/ci";
 import { IoRefresh } from "react-icons/io5";
-import ProdutoCreate from "./produtoCreate";
+import ProdutoDetalhes from "./produtoDetalhes";
 import ProdutoCard from "../../components/ProdutoCard";
 
 import instanceAxios from "../../services/axios";
@@ -20,6 +20,8 @@ import Swal from "sweetalert2";
 function ProdutoHome() {
 
   const [showModal, setShowModal] = useState(false);
+
+  const [idProduto, setIdProduto] = useState(0);
   
   const [listProdutos, setListProdutos] = useState([
     {
@@ -34,6 +36,12 @@ function ProdutoHome() {
       deleted_at: null
     }
   ])
+
+  const AbrirTelaProdutoDetalhes = (id) => {
+    console.log(id)
+    setIdProduto(id)
+    openModal()
+  }
 
   const CarregaListaProdutos = () => {
     
@@ -114,7 +122,7 @@ function ProdutoHome() {
                 </Tooltip>
             }>
 
-              <Button variant="secondary" className="btnoperacoes" onClick={openModal} >
+              <Button variant="secondary" className="btnoperacoes" onClick={ () => AbrirTelaProdutoDetalhes(0)} >
                 <CiSquarePlus size={35}/>
               </Button>
 
@@ -126,7 +134,12 @@ function ProdutoHome() {
           {listProdutos.map( (item) => {
             return (
               <Col sm={6} md={4} lg={3} xl={2} className="p-2">
-                <ProdutoCard Produto={item}/>
+                <button
+                  className="button-card"
+                  onClick={() => { AbrirTelaProdutoDetalhes(item.id) }}
+                >
+                  <ProdutoCard Produto={item} />
+                </button>
               </Col>
             )
           })}
@@ -136,10 +149,10 @@ function ProdutoHome() {
 
       <Modal show={showModal} onHide={closeModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Criar Produto</Modal.Title>
+          <Modal.Title>{idProduto !== 0 ? "Alterar Produto" : "Criar Produto"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ProdutoCreate closeModal={closeModal}/>
+          <ProdutoDetalhes closeModal={closeModal} idProduto={idProduto}/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeModal}>
