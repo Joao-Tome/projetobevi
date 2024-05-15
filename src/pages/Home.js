@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { instanceAxios, AddApiKey } from './services/axios.js'
+import { instanceAxios, AddApiKey } from '../services/axios.js'
 import Swal from 'sweetalert2';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import Loading from './components/Loading.js';
+import Loading from '../components/Loading.js';
 
 function Home() {
 
