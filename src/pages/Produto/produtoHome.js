@@ -54,7 +54,7 @@ function ProdutoHome() {
       Swal.fire({
         title: "Erro ao Criar o Produto!",
         text: "Usuario não esta Logado!",
-        icon:"Danger"
+        icon:"error"
       })
       return 
     }
@@ -71,7 +71,7 @@ function ProdutoHome() {
       Swal.fire({
         title: "Ocorreu um erro!",
         text: "Ocorreu um erro ao Enviar Listar os Produtos!",
-        icon: "danger"
+        icon: "error"
       })
       console.log(error)
     })
