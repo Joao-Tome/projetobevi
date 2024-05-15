@@ -3,7 +3,7 @@ import "../stylesheet/ProdutoCard.css";
 
 function ProdutoCard({ Produto }) {
     const limitCaracterOnDescription = 30;
-    
+
     const listastatus = [
         { name: "Em Estoque", value: 1 },
         { name: "Em Reposição", value: 2 },
@@ -28,20 +28,20 @@ function ProdutoCard({ Produto }) {
                         {Produto.name}
                     </Card.Title>
                     <Card.Subtitle>
-                        {Produto.description.length > limitCaracterOnDescription ? 
-                        Produto.description.substring(0,limitCaracterOnDescription) + '...' : Produto.description}
+                        {Produto.description.length > limitCaracterOnDescription ?
+                            Produto.description.substring(0, limitCaracterOnDescription) + '...' : Produto.description}
                     </Card.Subtitle>
                     <Card.Text className="mt-2">
                         Preço: R$ {Produto.price}
-                        <br/>
-                        Status: {listastatus.find( (element) => element.value === Produto.status).name}
-                        <br/>
+                        <br />
+                        Status: {listastatus.find((element) => element.value === Produto.status).name}
+                        <br />
                         Estoque: {Produto.stock_quantity}
                     </Card.Text>
                     <Card.Text className="text-muted">
-                       Criado em: {new Date(Produto.created_at).toLocaleDateString()}
-                       <br/>
-                       Ultima Alteração em: {new Date(Produto.updated_at).toLocaleDateString()}
+                        Criado em: {new Date(Produto.created_at).toLocaleDateString()}
+                        <br />
+                        Ultima Alteração em: {new Date(Produto.updated_at).toLocaleDateString()}
                     </Card.Text>
                 </Card.Body>
 

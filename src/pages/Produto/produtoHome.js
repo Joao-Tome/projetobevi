@@ -25,9 +25,10 @@ function ProdutoHome() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [idProduto, setIdProduto] = useState(0);
-  
+
   const [txtProdutoPesquisa, setTxtProdutoPesquisa] = useState('')
 
+  //Carrega um objeto padrão. quando tiver a resposta da api, ira ser sobrescrito
   const [listProdutos, setListProdutos] = useState([
     {
       id: 0,
@@ -49,46 +50,48 @@ function ProdutoHome() {
   }
 
   const CarregaListaProdutos = () => {
-    
-    if (instanceAxios.defaults.headers.common['Authorization'] === undefined ){
+    //Verifica se tem o Codigo, não eh o mais ideal, mas pelo menos da para ver se esta logado ou não. 
+    //Caso o token esteja vencido, não ira cair aqui, sei disso. so não sei uma outra forma sem ser "tentar novamente"
+    if (instanceAxios.defaults.headers.common['Authorization'] === undefined) {
       Swal.fire({
         title: "Erro ao Criar o Produto!",
         text: "Usuario não esta Logado!",
-        icon:"error"
+        icon: "error"
       })
-      return 
+      return
     }
     setIsLoading(true)
     instanceAxios({
       method: "post",
       url: "/product/list"
     })
-    .then( (resp) => {
-      console.log(resp)
-      setListProdutos(resp.data.data)
-    })
-    .catch( (error) => {
-      Swal.fire({
-        title: "Ocorreu um erro!",
-        text: "Ocorreu um erro ao Enviar Listar os Produtos!",
-        icon: "error"
+      .then((resp) => {
+        console.log(resp)
+        setListProdutos(resp.data.data)
       })
-      console.log(error)
-    })
-    .finally(() => {
-      setIsLoading(false)
-    })
+      .catch((error) => {
+        Swal.fire({
+          title: "Ocorreu um erro!",
+          text: "Ocorreu um erro ao Enviar Listar os Produtos!",
+          icon: "error"
+        })
+        console.log(error)
+      })
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
-  useEffect( () => {
+  //Ao abrir a pagina, carrega a lista 1 vez (2 pq react tem seus motivos no modo debug)
+  useEffect(() => {
     CarregaListaProdutos()
-  },[])
+  }, [])
 
   const closeModal = () => { setShowModal(false); CarregaListaProdutos() };
   const openModal = () => setShowModal(true);
 
-    return (
-      <>
+  return (
+    <>
       <Loading isLoading={isLoading} />
       <Container fluid>
         <h1 className="titulo">
@@ -97,42 +100,42 @@ function ProdutoHome() {
 
         {/* Linha dos Filtros e botoes */}
         <Row>
-          <Col sm={12}  md={{offset:4, span:4}}>
+          <Col sm={12} md={{ offset: 4, span: 4 }}>
             <Form>
               <Form.Group>
                 <Form.Label> Nome do produto </Form.Label>
-                    <Form.Control placeholder="Nome do produto" type="text" value={txtProdutoPesquisa} onChange={(resp) => {setTxtProdutoPesquisa(resp.target.value);}}/>
+                <Form.Control placeholder="Nome do produto" type="text" value={txtProdutoPesquisa} onChange={(resp) => { setTxtProdutoPesquisa(resp.target.value); }} />
               </Form.Group>
             </Form>
           </Col>
           <Col sm={12} md={3} className="mt-4 d-flex justify-content-end">
 
-            <OverlayTrigger 
+            <OverlayTrigger
               key={"overlayRecarregar"}
-              placement="top" 
+              placement="top"
               overlay={
                 <Tooltip id={"tooltipRecarregar"}>
                   Recarregar
                 </Tooltip>
               }>
 
-            <Button variant="secondary" className="btnoperacoes" onClick={ () => CarregaListaProdutos()}>
-              <IoRefresh size={35}/>
-            </Button>
+              <Button variant="secondary" className="btnoperacoes" onClick={() => CarregaListaProdutos()}>
+                <IoRefresh size={35} />
+              </Button>
 
             </OverlayTrigger>
 
-            <OverlayTrigger 
+            <OverlayTrigger
               key={"overlayCriar"}
-              placement="top" 
+              placement="top"
               overlay={
                 <Tooltip id={"tooltipCriar"}>
                   Criar
                 </Tooltip>
-            }>
+              }>
 
-              <Button variant="secondary" className="btnoperacoes" onClick={ () => AbrirTelaProdutoDetalhes(0)} >
-                <CiSquarePlus size={35}/>
+              <Button variant="secondary" className="btnoperacoes" onClick={() => AbrirTelaProdutoDetalhes(0)} >
+                <CiSquarePlus size={35} />
               </Button>
 
             </OverlayTrigger>
@@ -141,7 +144,7 @@ function ProdutoHome() {
 
         <Row className="mt-4">
           {/* Filtra a lista de acordo com o que esta no txtProdutoPesquisa */}
-          {listProdutos.filter((item) => {return item.name.includes(txtProdutoPesquisa)}).map( (item) => {
+          {listProdutos.filter((item) => { return item.name.includes(txtProdutoPesquisa) }).map((item) => {
             return (
               <Col sm={6} md={4} lg={3} xl={2} className="p-2">
                 <button
@@ -162,7 +165,7 @@ function ProdutoHome() {
           <Modal.Title>{idProduto !== 0 ? "Alterar Produto" : "Criar Produto"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ProdutoDetalhes closeModal={closeModal} idProduto={idProduto} setIsLoading={setIsLoading}/>
+          <ProdutoDetalhes closeModal={closeModal} idProduto={idProduto} setIsLoading={setIsLoading} />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeModal}>
@@ -171,9 +174,8 @@ function ProdutoHome() {
         </Modal.Footer>
       </Modal>
 
-      </>
-    );
-  }
-  
-  export default ProdutoHome;
-  
+    </>
+  );
+}
+
+export default ProdutoHome;

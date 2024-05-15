@@ -2,6 +2,7 @@ import { useRouteError } from "react-router-dom"
 import Container from "react-bootstrap/Container";
 
 function ErrorPage(){
+    //Pega o erro da pagina por aqui, do React-router-dom
     const error = useRouteError();
 
     return(

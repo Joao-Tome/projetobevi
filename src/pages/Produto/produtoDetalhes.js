@@ -21,6 +21,7 @@ function ProdutoDetalhes({ closeModal, idProduto, setIsLoading }) {
     { name: "Em Falta", value: 3 },
   ]
 
+  // Formato de envio ao API
   //Objeto do Produto a ser Carregado no Schema
   const [produto, setProduto] = useState({
     name: "",
@@ -30,7 +31,6 @@ function ProdutoDetalhes({ closeModal, idProduto, setIsLoading }) {
     stock_quantity: 0
   });
 
-  // Formato de envio ao API
   useEffect(() => {
     if (idProduto !== 0) {
       setIsLoading(true)
