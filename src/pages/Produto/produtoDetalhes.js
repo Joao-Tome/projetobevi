@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 import { useEffect, useState } from 'react';
 
 //Modal de Criar o Produto
-function ProdutoDetalhes({closeModal, idProduto}) {
+function ProdutoDetalhes({closeModal, idProduto, setIsLoading}) {
 
   //Lista de status
   //Normalmente retorna da API, mas como a API não retorna essa informação, irei deixar aqui mesmo.
@@ -32,8 +32,8 @@ function ProdutoDetalhes({closeModal, idProduto}) {
 
   // Formato de envio ao API
   useEffect(() => {
-    console.log(idProduto)
     if (idProduto !== 0) {
+      setIsLoading(true)
       //Chamada API para pegar o produto.
       instanceAxios({
         method: "get",
@@ -58,6 +58,9 @@ function ProdutoDetalhes({closeModal, idProduto}) {
           icon: "error"
         })
         console.log(error)
+      })
+      .finally( () => {
+        setIsLoading(false)
       })
     }
 
@@ -116,8 +119,9 @@ function ProdutoDetalhes({closeModal, idProduto}) {
 
 
   const UpdateProdutoAPI = (obj) => {
-    
-    if (obj === null) return; 
+   return new Promise( (resolve, reject) => {
+
+    if (obj === null) reject(); 
 
     //Crio um novo objeto com o conteudo de obj (ele foi desconstruido) mais o id do produto.
     const objUpdate = {...obj, id: idProduto};
@@ -145,37 +149,48 @@ function ProdutoDetalhes({closeModal, idProduto}) {
       })
       console.log(error)
     })
+    .finally(() => {
+      resolve()
+    })
+   }) 
   }
 
 
   
-  const CriarProdutoAPI = (obj) => {
+  const CriarProdutoAPI = async (obj) => {
     if (obj === null) return   
     
-    instanceAxios({
-      method: "post",
-      url: "/product/create",
-      data: obj
-    })
-    .then( (resp) => {
-      Swal.fire({
-        title: "Produto Criado com Sucesso!",
-        text: "Produto " + obj.name + " Criado com Sucesso!",
-        timer: 2000,
-        icon: "success"
-      }).then( () => {
-        closeModal()
+    return new Promise( (resolve, reject) => {
+      instanceAxios({
+        method: "post",
+        url: "/product/create",
+        data: obj
       })
-    })
-    .catch( (error) => {
-      Swal.fire({
-        title: "Ocorreu um erro!",
-        text: "Ocorreu um erro ao Enviar criar o Produto!",
-        icon: "error"
-      })
-      console.log(error)
-    })
-  }
+        .then((resp) => {
+          Swal.fire({
+            title: "Produto Criado com Sucesso!",
+            text: "Produto " + obj.name + " Criado com Sucesso!",
+            timer: 2000,
+            icon: "success"
+          }).then(() => {
+            closeModal()
+          })
+        })
+        .catch((error) => {
+          Swal.fire({
+            title: "Ocorreu um erro!",
+            text: "Ocorreu um erro ao Enviar criar o Produto!",
+            icon: "error"
+          })
+          console.log(error)
+        })
+        .finally(() => {
+          resolve()
+        })
+
+    })  
+   }
+    
 
   const EnviaAPI = (obj) => {
     if (instanceAxios.defaults.headers.common['Authorization'] === undefined ){
@@ -186,10 +201,15 @@ function ProdutoDetalhes({closeModal, idProduto}) {
       })
       return 
     }
+    setIsLoading(true)
     if (idProduto !== 0) {
-      UpdateProdutoAPI(obj)
+      UpdateProdutoAPI(obj).then(() => {
+        setIsLoading(false)
+      })
     } else {
-      CriarProdutoAPI(obj)
+       CriarProdutoAPI(obj).then(() => {
+        setIsLoading(false)
+       })
     }
   }
 

@@ -16,10 +16,13 @@ import ProdutoCard from "../../components/ProdutoCard";
 
 import instanceAxios from "../../services/axios";
 import Swal from "sweetalert2";
+import Loading from "../../components/Loading";
 
 function ProdutoHome() {
 
   const [showModal, setShowModal] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [idProduto, setIdProduto] = useState(0);
   
@@ -55,7 +58,7 @@ function ProdutoHome() {
       })
       return 
     }
-
+    setIsLoading(true)
     instanceAxios({
       method: "post",
       url: "/product/list"
@@ -72,6 +75,9 @@ function ProdutoHome() {
       })
       console.log(error)
     })
+    .finally(() => {
+      setIsLoading(false)
+    })
   }
 
   useEffect( () => {
@@ -83,6 +89,7 @@ function ProdutoHome() {
 
     return (
       <>
+      <Loading isLoading={isLoading} />
       <Container fluid>
         <h1 className="titulo">
           Listagem de Produto
@@ -155,7 +162,7 @@ function ProdutoHome() {
           <Modal.Title>{idProduto !== 0 ? "Alterar Produto" : "Criar Produto"}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <ProdutoDetalhes closeModal={closeModal} idProduto={idProduto}/>
+          <ProdutoDetalhes closeModal={closeModal} idProduto={idProduto} setIsLoading={setIsLoading}/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={closeModal}>
