@@ -1,7 +1,9 @@
 import {instanceAxios, AddApiKey} from './services/axios.js'
 import Swal from 'sweetalert2';
 import Button from 'react-bootstrap/Button';
-import NavBar from './components/NavBar.js';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import  Container  from 'react-bootstrap/Container';
 
 async function TestarAPI(){
   instanceAxios.post('/auth/me')
@@ -27,6 +29,10 @@ async function LogarAPI(){
     console.log(resp)
     if (resp.data.access_token != null){
       AddApiKey(resp.data.access_token)
+      Swal.fire({
+        title:"Logado com Sucesso!",
+        timer: 2000
+      })
     }
   })
   .catch((error) => {
@@ -38,14 +44,20 @@ async function LogarAPI(){
 function Home() {
   return (
     <>
-      {/* <NavBar/> */}
-      <Button variant="primary">Primary</Button>{' '}
-        <Button variant='primary' type='button' onClick={() => LogarAPI()}>
-          Logar
-        </Button>
-        <Button variant='primary' type='button' onClick={() => TestarAPI()}>
-          Testar API com o metodo ME
-        </Button>
+    <Container>
+        <Row className='mt-3'>
+          <Col className="text-start">
+            <Button variant='primary' type='button' onClick={() => LogarAPI()}>
+              Logar
+            </Button>
+          </Col>
+          <Col className="text-end">
+            <Button variant='primary' type='button' onClick={() => TestarAPI()}>
+              Testar API com o metodo ME
+            </Button>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 }

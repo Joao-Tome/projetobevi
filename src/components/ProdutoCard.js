@@ -1,4 +1,5 @@
 import Card from "react-bootstrap/Card";
+import "../stylesheet/ProdutoCard.css";
 
 function ProdutoCard({ Produto }) {
     const limitCaracterOnDescription = 30;
@@ -21,7 +22,7 @@ function ProdutoCard({ Produto }) {
     // deleted_at : null
     return (
         <>
-            <Card border="primary">
+            <Card className="card-produto">
                 <Card.Body className="text-center">
                     <Card.Title>
                         {Produto.name}

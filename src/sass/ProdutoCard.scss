@@ -1,0 +1,7 @@
+$basecolor-Card: #fcfcfc;
+$basecolor-Card-Shadow: #888;
+.card-produto{
+    color: black;
+    background-color: $basecolor-Card;
+    box-shadow: 0rem 0rem 0.5rem $basecolor-Card-Shadow;
+}

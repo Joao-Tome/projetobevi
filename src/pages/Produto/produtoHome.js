@@ -23,6 +23,8 @@ function ProdutoHome() {
 
   const [idProduto, setIdProduto] = useState(0);
   
+  const [txtProdutoPesquisa, setTxtProdutoPesquisa] = useState('')
+
   const [listProdutos, setListProdutos] = useState([
     {
       id: 0,
@@ -92,7 +94,7 @@ function ProdutoHome() {
             <Form>
               <Form.Group>
                 <Form.Label> Nome do produto </Form.Label>
-                <Form.Control placeholder="Nome do produto" type="text"/>
+                    <Form.Control placeholder="Nome do produto" type="text" value={txtProdutoPesquisa} onChange={(resp) => {setTxtProdutoPesquisa(resp.target.value);}}/>
               </Form.Group>
             </Form>
           </Col>
@@ -131,7 +133,8 @@ function ProdutoHome() {
         </Row>
 
         <Row className="mt-4">
-          {listProdutos.map( (item) => {
+          {/* Filtra a lista de acordo com o que esta no txtProdutoPesquisa */}
+          {listProdutos.filter((item) => {return item.name.includes(txtProdutoPesquisa)}).map( (item) => {
             return (
               <Col sm={6} md={4} lg={3} xl={2} className="p-2">
                 <button

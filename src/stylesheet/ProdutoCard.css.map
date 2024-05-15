@@ -1,1 +1,1 @@
-{"version":3,"sourceRoot":"","sources":[],"names":[],"mappings":"","file":"ProdutoCard.css"}
+{"version":3,"sourceRoot":"","sources":["../sass/ProdutoCard.scss"],"names":[],"mappings":"AAEA;EACI;EACA,kBAJa;EAKb","file":"ProdutoCard.css"}

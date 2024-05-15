@@ -1,3 +1,7 @@
-
+.card-produto {
+  color: black;
+  background-color: #fcfcfc;
+  box-shadow: 0rem 0rem 0.5rem #888;
+}
 
 /*# sourceMappingURL=ProdutoCard.css.map */
