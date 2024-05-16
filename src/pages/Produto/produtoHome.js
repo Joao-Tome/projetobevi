@@ -134,7 +134,7 @@ function ProdutoHome() {
                 </Tooltip>
               }>
 
-              <Button variant="secondary" className="btnoperacoes" onClick={() => AbrirTelaProdutoDetalhes(0)} >
+              <Button variant="secondary" className="btnoperacoes" onClick={() => AbrirTelaProdutoDetalhes(0)} data-testid="Criar" >
                 <CiSquarePlus size={35} />
               </Button>
 
@@ -146,7 +146,7 @@ function ProdutoHome() {
           {/* Filtra a lista de acordo com o que esta no txtProdutoPesquisa */}
           {listProdutos.filter((item) => { return item.name.includes(txtProdutoPesquisa) }).map((item) => {
             return (
-              <Col sm={6} md={4} lg={3} xl={2} className="p-2">
+              <Col sm={6} md={4} lg={3} xl={2} className="p-2" key={item.id}>
                 <button
                   className="button-card"
                   onClick={() => { AbrirTelaProdutoDetalhes(item.id) }}
