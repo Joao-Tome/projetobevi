@@ -37,6 +37,10 @@ NavBar.js - Seria a navbar de todas as paginas. para deixar separado.
 ProdutoCard.js - O card da listagem de pedidos. para carregar eles de forma mais facil.
 Loading.js - A "tela" de loading quando esta esperando algum dado da API.
 
+## tests
+
+Arquivos de teste, o jest pega automaticamente esses arquivos.
+
 # Inicialização
 
 Use o comando 'npm install' para instalar as depedencias do projeto
@@ -47,3 +51,7 @@ Utilize o .env.template para criar um novo arquivo .env com as informações do 
 
 Para executar o projeto, utilize 'npm start .env'
 
+# Teste
+
+Use o Comando 'npm test' para iniciar os teste da pasta /src/tests/.
+Todos eh para dar valido.
